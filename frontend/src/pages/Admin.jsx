@@ -23,7 +23,8 @@ const Admin = () => {
   const fetchRsvps = async () => {
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:5000/api/rsvp');
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const res = await fetch(`${apiUrl}/api/rsvp`);
       const data = await res.json();
       if (res.ok) {
         setRsvps(data);
@@ -39,7 +40,8 @@ const Admin = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this RSVP?')) {
       try {
-        const res = await fetch(`http://localhost:5000/api/rsvp/${id}`, { method: 'DELETE' });
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+        const res = await fetch(`${apiUrl}/api/rsvp/${id}`, { method: 'DELETE' });
         if (res.ok) {
           setRsvps(rsvps.filter((r) => r._id !== id));
         } else {
