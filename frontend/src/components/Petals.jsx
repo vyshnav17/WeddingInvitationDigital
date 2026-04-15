@@ -15,7 +15,7 @@ const Petals = () => {
       {petals.map((p) => (
         <span
           key={p.id}
-          className="petal absolute bg-blush-dark/40 rounded-full blur-[1px]"
+          className="petal absolute bg-pink-300 shadow-[0_0_10px_rgba(249,168,212,0.8)] rounded-full blur-[0.5px]"
           style={{
             left: `${p.left}%`,
             width: `${p.size}px`,
