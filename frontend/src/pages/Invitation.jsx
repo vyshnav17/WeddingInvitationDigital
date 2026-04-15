@@ -28,7 +28,7 @@ const Invitation = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-cream overflow-hidden">
+    <div className="relative min-h-screen bg-gradient-to-b from-cream via-white to-blush-light/30 overflow-hidden">
       
       {/* Ambient Effects */}
       <Petals />

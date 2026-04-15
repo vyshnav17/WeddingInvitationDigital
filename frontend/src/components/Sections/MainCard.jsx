@@ -51,7 +51,7 @@ const MainCard = () => {
   const weddingDate = '2026-06-21T09:35:00'; // June 21, 2026 9:35 AM
 
   return (
-    <section className="min-h-screen flex items-center justify-center py-20 px-4 md:px-6 relative bg-gradient-to-b from-cream via-white to-blush-light/30">
+    <section className="min-h-screen flex items-center justify-center py-20 px-4 md:px-6 relative">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
