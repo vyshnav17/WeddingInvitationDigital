@@ -4,40 +4,51 @@ const MusicPlayer = () => {
   const audioRef = useRef(null);
 
   useEffect(() => {
-    // Custom audio source from public folder
-    audioRef.current = new Audio('/bg-music.mp3');
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.3;
+    const audio = new Audio('/bg-music.mp3');
+    audio.loop = true;
+    audio.preload = 'auto';
+    audio.playsInline = true;
+    audio.volume = 1;
+    audioRef.current = audio;
 
     const tryPlay = () => {
       if (audioRef.current && audioRef.current.paused) {
         audioRef.current.play()
           .then(() => {
-            document.removeEventListener('click', tryPlay);
-            document.removeEventListener('touchstart', tryPlay);
-            document.removeEventListener('scroll', tryPlay);
+            window.removeEventListener('pointerdown', tryPlay);
+            window.removeEventListener('touchstart', tryPlay);
+            window.removeEventListener('keydown', tryPlay);
+            window.removeEventListener('scroll', tryPlay);
           })
-          .catch(e => console.log('Waiting for user interaction to autoplay audio.'));
+          .catch(() => {
+            // Autoplay may be blocked until a user gesture.
+          });
       }
     };
 
-    // Attempt direct autoplay first
+    const onAudioError = () => {
+      console.error('Unable to load /bg-music.mp3. Ensure file exists in frontend/public.');
+    };
+
+    audio.addEventListener('error', onAudioError);
+
+    // Attempt immediate autoplay on initial load.
     tryPlay();
 
-    // Browsers block audio without user interaction.
-    // So we attach listeners: as soon as they click, touch, or scroll, the music plays!
-    document.addEventListener('click', tryPlay);
-    document.addEventListener('touchstart', tryPlay);
-    document.addEventListener('scroll', tryPlay, { once: true });
-    
+    // Retry as soon as the first interaction happens (mobile/Safari friendly).
+    window.addEventListener('pointerdown', tryPlay, { passive: true });
+    window.addEventListener('touchstart', tryPlay, { passive: true });
+    window.addEventListener('keydown', tryPlay);
+    window.addEventListener('scroll', tryPlay, { passive: true });
+
     return () => {
-      document.removeEventListener('click', tryPlay);
-      document.removeEventListener('touchstart', tryPlay);
-      document.removeEventListener('scroll', tryPlay);
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
+      window.removeEventListener('pointerdown', tryPlay);
+      window.removeEventListener('touchstart', tryPlay);
+      window.removeEventListener('keydown', tryPlay);
+      window.removeEventListener('scroll', tryPlay);
+      audio.removeEventListener('error', onAudioError);
+      audio.pause();
+      audioRef.current = null;
     };
   }, []);
 
