@@ -15,15 +15,24 @@ const MusicPlayer = () => {
       if (audioRef.current && audioRef.current.paused) {
         audioRef.current.play()
           .then(() => {
-            window.removeEventListener('pointerdown', tryPlay);
-            window.removeEventListener('touchstart', tryPlay);
-            window.removeEventListener('keydown', tryPlay);
-            window.removeEventListener('scroll', tryPlay);
+            removeInteractionListeners();
           })
           .catch(() => {
             // Autoplay may be blocked until a user gesture.
           });
       }
+    };
+
+    const removeInteractionListeners = () => {
+      window.removeEventListener('pointerdown', tryPlay);
+      window.removeEventListener('touchstart', tryPlay);
+      window.removeEventListener('keydown', tryPlay);
+      window.removeEventListener('scroll', tryPlay);
+      window.removeEventListener('wheel', tryPlay);
+      window.removeEventListener('touchmove', tryPlay);
+      document.removeEventListener('scroll', tryPlay, true);
+      document.removeEventListener('wheel', tryPlay, true);
+      document.removeEventListener('touchmove', tryPlay, true);
     };
 
     const onAudioError = () => {
@@ -35,17 +44,25 @@ const MusicPlayer = () => {
     // Attempt immediate autoplay on initial load.
     tryPlay();
 
+    // Retry a few times early in case browser policy unlocks shortly after load.
+    const retryInterval = window.setInterval(tryPlay, 800);
+    const stopRetryTimeout = window.setTimeout(() => window.clearInterval(retryInterval), 8000);
+
     // Retry as soon as the first interaction happens (mobile/Safari friendly).
     window.addEventListener('pointerdown', tryPlay, { passive: true });
     window.addEventListener('touchstart', tryPlay, { passive: true });
     window.addEventListener('keydown', tryPlay);
     window.addEventListener('scroll', tryPlay, { passive: true });
+    window.addEventListener('wheel', tryPlay, { passive: true });
+    window.addEventListener('touchmove', tryPlay, { passive: true });
+    document.addEventListener('scroll', tryPlay, { passive: true, capture: true });
+    document.addEventListener('wheel', tryPlay, { passive: true, capture: true });
+    document.addEventListener('touchmove', tryPlay, { passive: true, capture: true });
 
     return () => {
-      window.removeEventListener('pointerdown', tryPlay);
-      window.removeEventListener('touchstart', tryPlay);
-      window.removeEventListener('keydown', tryPlay);
-      window.removeEventListener('scroll', tryPlay);
+      window.clearInterval(retryInterval);
+      window.clearTimeout(stopRetryTimeout);
+      removeInteractionListeners();
       audio.removeEventListener('error', onAudioError);
       audio.pause();
       audioRef.current = null;
