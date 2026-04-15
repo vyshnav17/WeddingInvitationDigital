@@ -18,13 +18,22 @@ const Events = () => {
     },
     {
       title: "Temple",
-      detail: "Kuzhuppilly Kavu Bhagavathi Temple",
+      detail: "Kuzhuppilly Kavu Bhagavathi Temple,perumbavoor",
       icon: <Map className="w-6 h-6" />,
       align: "left"
     },
     {
-      title: "Reception Venue",
-      detail: "Milan Convention Centre, Keezhillam (11:00 AM)",
+      title: "Wedding Venue",
+      detail: (
+        <a 
+          href="https://www.google.com/maps/dir/?api=1&destination=Milan+Convention+Center,+3G88%2BCRC,+Kerala+683541" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="hover:text-gold transition-colors cursor-pointer underline decoration-gold/30 hover:decoration-gold underline-offset-4"
+        >
+          Milan Convention Centre, Keezhillam (11:00 AM)
+        </a>
+      ),
       icon: <MapPin className="w-6 h-6" />,
       align: "right"
     }

@@ -28,7 +28,7 @@ const CountdownTimer = ({ targetDate }) => {
 
   return (
     <div className="mt-8 flex flex-col items-center">
-      <p className="font-serif text-xs md:text-sm tracking-[0.2em] text-gray-400 uppercase mb-4">Countdown to Reception</p>
+      <p className="font-serif text-xs md:text-sm tracking-[0.2em] text-gray-400 uppercase mb-4">Countdown to Wedding</p>
       <div className="flex gap-2 md:gap-8 justify-center">
         {Object.keys(timeLeft).map((interval) => (
           <div key={interval} className="flex flex-col items-center">
@@ -101,21 +101,28 @@ const MainCard = () => {
             </div>
           </div>
 
-          {/* Reception Callout */}
+          {/* Wedding Callout */}
           <div className="flex items-center justify-center gap-4 mb-8 text-gray-400">
             <div className="h-px bg-gray-200 w-12"></div>
-            <span className="font-serif text-xs tracking-widest uppercase">Reception 11:00 AM</span>
+            <span className="font-serif text-xs tracking-widest uppercase">Wedding 11:00 AM</span>
             <div className="h-px bg-gray-200 w-12"></div>
           </div>
 
           {/* Venue Block */}
           <div className="mb-10 space-y-1">
-            <h3 className="font-serif text-xl md:text-2xl text-gray-700 tracking-wider">Milan Convention Centre</h3>
+            <a 
+              href="https://www.google.com/maps/dir/?api=1&destination=Milan+Convention+Center,+3G88%2BCRC,+Kerala+683541" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-block hover:opacity-80 transition-opacity"
+            >
+              <h3 className="font-serif text-xl md:text-2xl text-gray-700 tracking-wider hover:text-gold transition-colors cursor-pointer">Milan Convention Centre</h3>
+            </a>
             <p className="font-sans text-sm text-gray-500 font-light flex items-center justify-center gap-1">
               <svg className="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
               Keezhillam
             </p>
-            <p className="font-sans text-xs mt-2 text-gray-400">Wedding: Kuzhuppilly Kavu Bhagavathi Temple</p>
+            <p className="font-sans text-xs mt-2 text-gray-400">Wedding: Kuzhuppilly Kavu Bhagavathi Temple,perumbavoor</p>
           </div>
 
           {/* Countdown Block */}
