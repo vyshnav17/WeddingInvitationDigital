@@ -81,10 +81,9 @@ const EntranceOverlay = ({ onEnter }) => {
 
       {/* Central Emblem & Button */}
       <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center"
-        variants={{
-          exit: { opacity: 0, scale: 0.9, filter: "blur(10px)", transition: { duration: 0.4 } }
-        }}
+        className="absolute top-1/2 left-1/2 z-20 flex flex-col items-center"
+        initial={{ x: "-50%", y: "-50%", scale: 1, opacity: 1, filter: "blur(0px)" }}
+        exit={{ x: "-50%", y: "-50%", opacity: 0, scale: 0.9, filter: "blur(10px)", transition: { duration: 0.4 } }}
       >
         <button
           onClick={onEnter}
