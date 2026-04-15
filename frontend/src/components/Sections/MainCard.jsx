@@ -11,9 +11,10 @@ const CountdownTimer = ({ targetDate }) => {
         days: Math.floor(difference / (1000 * 60 * 60 * 24)),
         hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
         minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
       };
     } else {
-      timeLeft = { days: 0, hours: 0, minutes: 0 };
+      timeLeft = { days: 0, hours: 0, minutes: 0, seconds: 0 };
     }
     return timeLeft;
   };
@@ -21,22 +22,22 @@ const CountdownTimer = ({ targetDate }) => {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
-    const timer = setTimeout(() => setTimeLeft(calculateTimeLeft()), 1000 * 60); // update every minute
-    return () => clearTimeout(timer);
-  });
+    const timer = setInterval(() => setTimeLeft(calculateTimeLeft()), 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
     <div className="mt-8 flex flex-col items-center">
       <p className="font-serif text-xs md:text-sm tracking-[0.2em] text-gray-400 uppercase mb-4">Countdown to Reception</p>
-      <div className="flex gap-4 md:gap-8 justify-center">
+      <div className="flex gap-2 md:gap-8 justify-center">
         {Object.keys(timeLeft).map((interval) => (
           <div key={interval} className="flex flex-col items-center">
-            <div className="w-16 h-16 md:w-20 md:h-20 bg-blush-light rounded-2xl flex items-center justify-center border border-blush shadow-inner">
-               <span className="font-serif text-2xl md:text-3xl text-gray-700">
-                  {timeLeft[interval].toString().padStart(2, '0')}
-               </span>
+            <div className="w-14 h-14 md:w-20 md:h-20 bg-blush-light rounded-xl md:rounded-2xl flex items-center justify-center border border-blush shadow-inner">
+              <span className="font-serif text-xl md:text-3xl text-gray-700">
+                {timeLeft[interval].toString().padStart(2, '0')}
+              </span>
             </div>
-            <span className="text-[10px] md:text-xs tracking-widest uppercase mt-2 text-gray-400">
+            <span className="text-[9px] md:text-xs tracking-widest uppercase mt-1.5 md:mt-2 text-gray-400">
               {interval}
             </span>
           </div>
@@ -51,7 +52,7 @@ const MainCard = () => {
 
   return (
     <section className="min-h-screen flex items-center justify-center py-20 px-4 md:px-6 relative bg-gradient-to-b from-cream via-white to-blush-light/30">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, ease: "easeOut" }}
@@ -64,7 +65,7 @@ const MainCard = () => {
 
         <div className="relative z-10">
           <p className="font-serif text-xs md:text-sm tracking-[0.2em] text-gray-400 uppercase mb-8">
-            Exclusive Invitation For<br/>
+            Exclusive Invitation For<br />
             <span className="text-gray-600 block mt-2 text-base">Our Cherished Guests</span>
           </p>
 
@@ -89,7 +90,7 @@ const MainCard = () => {
               <span className="font-serif text-sm text-gray-500 uppercase tracking-widest">June</span>
               <span className="font-sans text-xs text-gray-400">2026, Sunday</span>
             </div>
-            
+
             <div className="flex-1 py-4 flex flex-col justify-center items-center bg-gray-50/50">
               <span className="font-sans font-bold text-4xl md:text-5xl text-emerald-800/80">21</span>
             </div>
@@ -101,11 +102,11 @@ const MainCard = () => {
           </div>
 
           {/* Reception Callout */}
-           <div className="flex items-center justify-center gap-4 mb-8 text-gray-400">
-             <div className="h-px bg-gray-200 w-12"></div>
-             <span className="font-serif text-xs tracking-widest uppercase">Reception 11:00 AM</span>
-             <div className="h-px bg-gray-200 w-12"></div>
-           </div>
+          <div className="flex items-center justify-center gap-4 mb-8 text-gray-400">
+            <div className="h-px bg-gray-200 w-12"></div>
+            <span className="font-serif text-xs tracking-widest uppercase">Reception 11:00 AM</span>
+            <div className="h-px bg-gray-200 w-12"></div>
+          </div>
 
           {/* Venue Block */}
           <div className="mb-10 space-y-1">
@@ -119,7 +120,7 @@ const MainCard = () => {
 
           {/* Countdown Block */}
           <CountdownTimer targetDate={weddingDate} />
-          
+
         </div>
       </motion.div>
     </section>
