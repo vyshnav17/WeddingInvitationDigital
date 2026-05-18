@@ -125,6 +125,21 @@ const MainCard = () => {
             <p className="font-sans text-xs mt-2 text-gray-400">Wedding: Kuzhuppilly Kavu Bhagavathi Temple,perumbavoor</p>
           </div>
 
+          {/* Interactive Map Block */}
+          <div className="mb-10 w-full aspect-video rounded-xl overflow-hidden shadow-inner border border-gold-light/30">
+            <iframe 
+              src="https://maps.google.com/maps?q=Milan%20Convention%20Centre,%20Keezhillam&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+              width="100%" 
+              height="100%" 
+              style={{ border: 0 }} 
+              allowFullScreen="" 
+              loading="lazy" 
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Wedding Venue Map"
+              className="w-full h-full grayscale-[10%] contrast-110 hover:grayscale-0 transition-all duration-700"
+            ></iframe>
+          </div>
+
           {/* Countdown Block */}
           <CountdownTimer targetDate={weddingDate} />
 
