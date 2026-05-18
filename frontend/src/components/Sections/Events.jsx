@@ -82,6 +82,43 @@ const Events = () => {
           ))}
         </div>
       </div>
+
+      {/* Interactive Map Section */}
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.4 }}
+        className="w-full max-w-5xl mx-auto mt-24 glass p-4 md:p-6 rounded-3xl relative overflow-hidden shadow-xl"
+      >
+        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-gold-light via-gold to-gold-light"></div>
+        <h3 className="font-serif text-3xl text-center text-gray-800 mb-6 mt-2">Navigate to the Venue</h3>
+        <div className="w-full aspect-square md:aspect-[21/9] rounded-2xl overflow-hidden shadow-inner border border-white/40">
+          <iframe 
+            src="https://maps.google.com/maps?q=Milan%20Convention%20Centre,%20Keezhillam&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+            width="100%" 
+            height="100%" 
+            style={{ border: 0 }} 
+            allowFullScreen="" 
+            loading="lazy" 
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Wedding Venue Map"
+            className="w-full h-full grayscale-[20%] contrast-125 hover:grayscale-0 transition-all duration-700"
+          ></iframe>
+        </div>
+        <div className="text-center mt-6 mb-2">
+          <a 
+            href="https://www.google.com/maps/dir/?api=1&destination=Milan+Convention+Center,+3G88%2BCRC,+Kerala+683541" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-gold text-white rounded-full uppercase tracking-widest text-sm font-medium hover:bg-gold-dark transition-all shadow-lg hover:shadow-gold/40 hover:-translate-y-1"
+          >
+            <MapPin className="w-4 h-4" />
+            Get Directions
+          </a>
+        </div>
+      </motion.div>
+
     </section>
   );
 };
