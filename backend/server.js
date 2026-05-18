@@ -16,7 +16,7 @@ app.use(express.json());
 app.use('/api/rsvp', rsvpRoutes);
 
 // MongoDB Connection
-mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/wedding')
+mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/wedding')
 .then(() => console.log('MongoDB connected successfully'))
 .catch((err) => console.error('MongoDB connection error:', err));
 

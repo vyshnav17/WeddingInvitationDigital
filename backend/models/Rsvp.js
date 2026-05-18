@@ -6,7 +6,7 @@ const RsvpSchema = new mongoose.Schema({
   guests: { type: Number, required: true, min: 0 },
   attending: { type: String, enum: ['Yes', 'No'], required: true },
   message: { type: String },
-  createdAt: { type: Date, default: Date.now }
+  createdAt: { type: Date, default: Date.now, index: true }
 });
 
 module.exports = mongoose.model('Rsvp', RsvpSchema);

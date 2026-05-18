@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
 // GET /api/rsvp - Get all RSVPs (Admin)
 router.get('/', async (req, res) => {
   try {
-    const rsvps = await Rsvp.find().sort({ createdAt: -1 });
+    const rsvps = await Rsvp.find().sort({ createdAt: -1 }).lean();
     res.status(200).json(rsvps);
   } catch (error) {
     console.error('Error fetching RSVPs:', error);
