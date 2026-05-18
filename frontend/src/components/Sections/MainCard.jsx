@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const CountdownTimer = ({ targetDate }) => {
   const calculateTimeLeft = () => {
@@ -49,6 +49,7 @@ const CountdownTimer = ({ targetDate }) => {
 
 const MainCard = () => {
   const weddingDate = '2026-06-21T09:35:00'; // June 21, 2026 9:35 AM
+  const [showMapModal, setShowMapModal] = useState(false);
 
   return (
     <section className="min-h-screen flex items-center justify-center py-20 px-4 md:px-6 relative">
@@ -110,34 +111,19 @@ const MainCard = () => {
 
           {/* Venue Block */}
           <div className="mb-10 space-y-1">
-            <a 
-              href="https://www.google.com/maps/dir/?api=1&destination=Milan+Convention+Center,+3G88%2BCRC,+Kerala+683541" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="inline-block hover:opacity-80 transition-opacity"
+            <button 
+              onClick={() => setShowMapModal(true)}
+              className="inline-block hover:opacity-80 transition-opacity focus:outline-none"
             >
-              <h3 className="font-serif text-xl md:text-2xl text-gray-700 tracking-wider hover:text-gold transition-colors cursor-pointer">Milan Convention Centre</h3>
-            </a>
+              <h3 className="font-serif text-xl md:text-2xl text-gray-700 tracking-wider hover:text-gold transition-colors cursor-pointer flex items-center justify-center gap-2">
+                Milan Convention Centre
+                <svg className="w-5 h-5 text-gold animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+              </h3>
+            </button>
             <p className="font-sans text-sm text-gray-500 font-light flex items-center justify-center gap-1">
-              <svg className="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
               Keezhillam
             </p>
             <p className="font-sans text-xs mt-2 text-gray-400">Wedding: Kuzhuppilly Kavu Bhagavathi Temple,perumbavoor</p>
-          </div>
-
-          {/* Interactive Map Block */}
-          <div className="mb-10 w-full aspect-video rounded-xl overflow-hidden shadow-inner border border-gold-light/30">
-            <iframe 
-              src="https://maps.google.com/maps?q=Milan%20Convention%20Centre,%20Keezhillam&t=&z=14&ie=UTF8&iwloc=&output=embed" 
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen="" 
-              loading="lazy" 
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Wedding Venue Map"
-              className="w-full h-full grayscale-[10%] contrast-110 hover:grayscale-0 transition-all duration-700"
-            ></iframe>
           </div>
 
           {/* Countdown Block */}
@@ -145,6 +131,61 @@ const MainCard = () => {
 
         </div>
       </motion.div>
+
+      {/* Map Modal */}
+      <AnimatePresence>
+        {showMapModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+            onClick={() => setShowMapModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
+              className="bg-white p-2 rounded-2xl shadow-2xl w-full max-w-4xl relative overflow-hidden flex flex-col"
+            >
+              <button 
+                onClick={() => setShowMapModal(false)}
+                className="absolute top-4 right-4 z-10 p-2 bg-white/80 hover:bg-white text-gray-800 rounded-full shadow backdrop-blur transition-all"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+              </button>
+              
+              <div className="w-full h-[60vh] md:h-[70vh] rounded-xl overflow-hidden border border-gray-100 mt-12 md:mt-0">
+                <iframe 
+                  src="https://maps.google.com/maps?q=Milan%20Convention%20Centre,%20Keezhillam&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+                  width="100%" 
+                  height="100%" 
+                  style={{ border: 0 }} 
+                  allowFullScreen="" 
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Wedding Venue Map"
+                  className="w-full h-full"
+                ></iframe>
+              </div>
+              
+              <div className="p-4 text-center">
+                <a 
+                  href="https://www.google.com/maps/dir/?api=1&destination=Milan+Convention+Center,+3G88%2BCRC,+Kerala+683541" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-8 py-3 bg-gold text-white rounded-full uppercase tracking-widest text-sm font-medium hover:bg-gold-dark transition-colors shadow-lg hover:shadow-gold/40"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                  Get Directions in App
+                </a>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </section>
   );
 };
